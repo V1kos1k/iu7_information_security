@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CommonCrypto
+import CryptoSwift
 
 func readFile() -> String {
     let file = "file.key" //this is the file. we will write to and read from it
@@ -26,7 +26,8 @@ func readFile() -> String {
 
 func writeToFile(lsWithArgumentsOutput: Substring) {
     let file = "file.key"
-    let text = lsWithArgumentsOutput
+    let text = String(lsWithArgumentsOutput).sha256()
+    //print(text)
 
     if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
         let fileURL = dir.appendingPathComponent(file)
@@ -56,9 +57,8 @@ func run() {
     //print(type(of: lsWithArgumentsOutput))
     
     let key = readFile()
-    //print(key)
     
-    if key == lsWithArgumentsOutput {
+    if key == String(lsWithArgumentsOutput).sha256() {
         print("OK")
     } else {
         print("ERROR")
